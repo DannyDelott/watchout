@@ -29,7 +29,8 @@ var addCircle = function(x, y, color){
       return d.color;
     });
 
-  var circleAttributes = circle.transition().duration(1000)
+  var circleAttributes = circle.transition()
+    .duration(1000)
     .attr("cx", function(d) {
       return d.x_axis;
     })
@@ -42,11 +43,23 @@ var addCircle = function(x, y, color){
     .style('opacity', 1);
 };
 
-// initialize enemies on board
-for(var i = 0; i < 30; i++){
+var generateRandomCoordinates = function(){
   var randomX = Math.floor(Math.random() * (dimensions.width));
   var randomY = Math.floor(Math.random() * (dimensions.height));
-  addCircle(randomX, randomY, 'purple');
+
+  if((randomX === dimensions.width / 2) ||
+     (randomY === dimensions.height / 2)){
+    return generateRandomCoordinates();
+  }else {
+    return [randomX, randomY];
+  }
+};
+
+// initialize enemies on board
+for(var i = 0; i < 30; i++){
+  var randomCoordinates = generateRandomCoordinates();
+  addCircle(randomCoordinates[0], randomCoordinates[1], 'purple');
 }
 
-
+// initializes player on the board
+addCircle(dimensions.width / 2, dimensions.height / 2, 'green');
