@@ -1,9 +1,10 @@
-// adds the circle container
-var svgContainer = d3.select("body").append("svg")
-  .attr("width", 800)
-  .attr("height", 500);
-
+// gets the game board from the page
+var gameBoard = d3.select('.gameboard svg');
+var dimensions = { height: 500, width: 800, 
+                   circleRadius: 15 };
+                   
 // updates scores
+// scores = [highscore, currentscore, collisions]
 var updateScoreboard = function(scores){
   d3.select('.scoreboard')
     .selectAll('span')
@@ -12,16 +13,16 @@ var updateScoreboard = function(scores){
     .text(function(d){ return d; });
 };
 
-// adds a circle to the svgContainer at the xy coordinates.
+// adds a circle to the gameBoard.
 var addCircle = function(x, y){
   var circle_data = [{
     "x_axis": x,
     "y_axis": y,
-    "radius": 20,
+    "radius": dimensions.circleRadius,
     "color": "purple"
   }];
 
-  var circle = svgContainer.append("circle")
+  var circle = gameBoard.append("circle")
     .data(circle_data);
 
   var circleAttributes = circle
@@ -39,7 +40,11 @@ var addCircle = function(x, y){
     });
 };
 
-addCircle(100,100);
-addCircle(200,200);
-addCircle(400,400);
+// initialize circles on board
+for(var i = 0; i < 30; i++){
+  var randomX = Math.floor(Math.random() * (dimensions.width));
+  var randomY = Math.floor(Math.random() * (dimensions.height));
+  addCircle(randomX, randomY);
+}
+
 

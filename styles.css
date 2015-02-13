@@ -2,4 +2,29 @@
 
 /* Note: an asteroid image is included in this repo.
 Feel free to use it if you like. */
+.gameboard {
+  height: 500px; width: 800px;
+  margin: auto;
+  top: 0; left: 0; bottom: 0; right: 0;
+  position:absolute;
+  border: 1px solid black;
+}
+.gameboard svg {
+  height: 100%; width: 100%;
+}
 
+.scoreboard {
+ height: 120px; width: 250px;
+ padding:16px;
+ background: #eee;
+ text-align:center;
+ font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica; 
+ font-size: 26px;
+ font-weight: 300;
+ line-height: 36px;
+ margin:18px auto;
+}
+.scoreboard span {
+  font-family: Helvetica;
+  font-weight:normal;
+}
