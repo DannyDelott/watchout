@@ -14,18 +14,22 @@ var updateScoreboard = function(scores){
 };
 
 // adds a circle to the gameBoard.
-var addCircle = function(x, y){
+var addCircle = function(x, y, color){
   var circle_data = [{
     "x_axis": x,
     "y_axis": y,
     "radius": dimensions.circleRadius,
-    "color": "purple"
+    "color": color
   }];
 
   var circle = gameBoard.append("circle")
-    .data(circle_data);
+    .data(circle_data)
+    .style('opacity', 0)
+    .style("fill", function(d) {
+      return d.color;
+    });
 
-  var circleAttributes = circle
+  var circleAttributes = circle.transition().duration(1000)
     .attr("cx", function(d) {
       return d.x_axis;
     })
@@ -35,16 +39,14 @@ var addCircle = function(x, y){
     .attr("r", function(d) {
       return d.radius;
     })
-    .style("fill", function(d) {
-      return d.color;
-    });
+    .style('opacity', 1);
 };
 
-// initialize circles on board
+// initialize enemies on board
 for(var i = 0; i < 30; i++){
   var randomX = Math.floor(Math.random() * (dimensions.width));
   var randomY = Math.floor(Math.random() * (dimensions.height));
-  addCircle(randomX, randomY);
+  addCircle(randomX, randomY, 'purple');
 }
 
 
