@@ -93,18 +93,16 @@ var generateEnemyCircleData = function(numEnemies){
   return data;
 };
 
-var checkCollision = function(d){
-  var playerData = d3.select(".player").data()[0];
+var checkCollision = function(enemyX, enemyY){
+  var playerX = d3.select(".player").attr('cx');
+  var playerY = d3.select(".player").attr('cy');
   var radiusSum = dimensions.circleRadius * 2;
-
-  var xDiff = d.x_axis - playerData.x_axis;
-  var yDiff = d.y_axis - playerData.y_axis;
+  var xDiff = enemyX - playerX;
+  var yDiff = enemyY - playerY;
   var separation = Math.sqrt( Math.pow(xDiff,2) + Math.pow(yDiff,2) );
 
-  if(separation < radiusSum){
-    scores[2]++;
-    resetScore();
-  }
+  if(separation < radiusSum){ return true; }
+  
 };
 
 var resetScore = function(){
@@ -171,12 +169,6 @@ var moveInterval = setInterval(function(){
   d3.selectAll('.enemy')
     .data(circle_data)
     .transition()
-    .tween('collision', function(d, i){
-       return function() {
-         checkCollision(d);
-         //TODO: check for a collision
-       };
-    })
     .duration(1000)
     .attr("cx", function(d) {
       return d.x_axis;
@@ -193,7 +185,19 @@ var moveInterval = setInterval(function(){
 // update the score board every 50 milliseconds
 var scoreInterval = setInterval(function(){
     
-    scores[0] = 0; //TODO update high score
+    d3.selectAll('.enemy').each(function(){
+      var x = d3.select(this).attr('cx');
+      var y = d3.select(this).attr('cy');
+      if(checkCollision(x, y)){
+        if(scores[0] < scores[1]){
+          scores[0] = scores[1];
+        }
+        scores[2]++;
+        scores[1] = 0;
+        updateScoreboard();
+      }
+    });
+
     scores[1]++; //TODO update current score
     
     updateScoreboard();

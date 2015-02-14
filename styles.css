@@ -5,12 +5,24 @@ Feel free to use it if you like. */
 .gameboard {
   height: 500px; width: 800px;
   margin: auto;
+  background: #fff;
+  opacity:.6;
   top: 0; left: 0; bottom: 0; right: 0;
   position:absolute;
-  border: 1px solid black;
+  box-shadow:5px 5px black; 
+  border-radius:15px;
+      
 }
 .gameboard svg {
   height: 100%; width: 100%;
+}
+
+video#bgvid {
+  position: fixed; right: 0; bottom: 0;
+  min-width: 100%; min-height: 100%;
+  width: auto; height: auto; z-index: -100;
+  background: url(bg.jpg) no-repeat;
+  background-size: cover;
 }
 
 .scoreboard {
@@ -23,8 +35,18 @@ Feel free to use it if you like. */
  font-weight: 300;
  line-height: 36px;
  margin:18px auto;
+ border-radius: 15px;
+ opacity: .6;
 }
 .scoreboard span {
   font-family: Helvetica;
   font-weight:normal;
+}
+
+@media screen and (max-device-width: 800px) {
+body { 
+  background: url(bg.jpg) #000 no-repeat center center fixed;
+}
+
+#bgvid { display: none; }
 }
