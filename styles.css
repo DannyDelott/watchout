@@ -5,8 +5,6 @@ Feel free to use it if you like. */
 .gameboard {
   height: 500px; width: 800px;
   margin: auto;
-  background: #999;
-  opacity:.5;
   top: 0; left: 0; bottom: 0; right: 0;
   position:absolute;
   z-index:3;
@@ -17,9 +15,9 @@ Feel free to use it if you like. */
 }
 
 .scoreboard {
- height: 120px; width: 300px;
- padding:16px;
- background: #999;
+ height: 100px; width: 300px;
+ padding: 8px 16px 16px 16px;
+ background: #fff;
  text-align:center;
  color:black;
  font-family: 'Lato', Helvetica; 
