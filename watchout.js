@@ -8,11 +8,11 @@ var scoreBoard = d3.select('.scoreboard');
 var dimensions = { height: 500, width: 800, 
                    circleRadius: 15 };
 
-var enemyCircle = { color: 'purple', 
+var enemyCircle = { color: 'white', 
                     classification: 'enemy',
                     numEnemies: 15 };                   
                     
-var playerCircle = { color: 'green',
+var playerCircle = { color: '#FFFF00',
                      classification: 'player' };
 
 var scores = [0, 0, 0];
@@ -24,9 +24,12 @@ var scores = [0, 0, 0];
 // updates scores
 // scores = [highscore, currentscore, collisions]
 var updateScoreboard = function(){
-    scoreBoard.selectAll('span')
-    .data(scores)
-    .text(function(d){ return d; });
+  d3.select('#high')
+    .text(scores[0]);
+  d3.select('#current')
+    .text(scores[1]);
+  d3.select('#collisions')
+    .text(scores[2]);
 };
 
 // adds a circle to the gameBoard.
@@ -185,20 +188,20 @@ var moveInterval = setInterval(function(){
 // update the score board every 50 milliseconds
 var scoreInterval = setInterval(function(){
     
-    d3.selectAll('.enemy').each(function(){
-      var x = d3.select(this).attr('cx');
-      var y = d3.select(this).attr('cy');
-      if(checkCollision(x, y)){
-        if(scores[0] < scores[1]){
-          scores[0] = scores[1];
-        }
-        scores[2]++;
-        scores[1] = 0;
-        updateScoreboard();
+  d3.selectAll('.enemy').each(function(){
+    var x = d3.select(this).attr('cx');
+    var y = d3.select(this).attr('cy');
+    if(checkCollision(x, y)){
+      if(scores[0] < scores[1]){
+        scores[0] = scores[1];
       }
-    });
+      scores[2]++;
+      scores[1] = 0;
+      updateScoreboard();
+    }
+  });
 
-    scores[1]++; //TODO update current score
-    
-    updateScoreboard();
+  scores[1]++; 
+  
+  updateScoreboard();
   }, 50);
