@@ -2,4 +2,62 @@
 
 /* Note: an asteroid image is included in this repo.
 Feel free to use it if you like. */
+.gameboard {
+  height: 500px; width: 800px;
+  margin: auto;
+  background: #999;
+  opacity:.5;
+  top: 0; left: 0; bottom: 0; right: 0;
+  position:absolute;
+  z-index:3;
+  border-radius:15px;
+}
+.gameboard svg {
+  height: 100%; width: 100%;
+}
 
+.scoreboard {
+ height: 120px; width: 300px;
+ padding:16px;
+ background: #999;
+ text-align:center;
+ color:black;
+ font-family: 'Lato', Helvetica; 
+ font-size: 26px;
+ font-weight: 700;
+ line-height: 36px;
+ margin:18px auto;
+ border-radius: 15px;
+ opacity: .5;
+}
+.stats {
+  float:left;
+  text-align: left;
+}
+.scores {
+  font-family: 'Lato', Helvetica;
+  font-weight:300;
+  text-align:right;
+  float:right;
+}
+
+.enemy {
+  opacity:1;
+  position:relative;
+  z-index:3;
+}
+
+video#bgvid {
+  position: fixed; right: 0; bottom: 0;
+  min-width: 100%; min-height: 100%;
+  width: auto; height: auto; z-index: 0;
+  background: url(bg.jpg) no-repeat;
+  background-size: cover;
+}
+@media screen and (max-device-width: 800px) {
+body { 
+  background: url(bg.jpg) #000 no-repeat center center fixed;
+}
+
+#bgvid { display: none; }
+}

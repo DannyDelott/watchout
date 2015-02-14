@@ -2,13 +2,27 @@
 <html>
   <head>
     <link rel='stylesheet' type='css' href='styles.css'> 
+    <link href='http://fonts.googleapis.com/css?family=Lato:300,700' rel='stylesheet' type='text/css'>
   </head>
   <body>
+    <video autoplay loop poster="bg.jpg" id="bgvid">
+      <source src="bg.mp4" type="video/webm">
+    </video>
     <div class="scoreboard">
-      <!-- Modify the scoreboard when important events occur in your game! -->
-      <div class="high">High score: <span>0</span></div>
-      <div class="current">Current score: <span>0</span></div>
-      <div class="collisions">Collisions: <span>0</span></div>
+      <div class="stats">
+        <div class="high">High score:</div>
+        <div class="current">Current score:</div>
+        <div class="collisions">Collisions:</div>
+      </div>
+      <div class="scores">
+        <div id="high">0</div>
+        <div id="current">0</div>
+        <div id="collisions">0</div>
+      </div>
+    </div>
+
+    <div class="gameboard">
+      <svg></svg>
     </div>
     <script src="d3.js" charset="utf-8"></script>
     <script src='watchout.js'></script>
