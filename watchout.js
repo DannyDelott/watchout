@@ -10,7 +10,7 @@ var dimensions = { height: 500, width: 800,
 
 var enemyCircle = { color: 'purple', 
                     classification: 'enemy',
-                    numEnemies: 20 };                   
+                    numEnemies: 15 };                   
                     
 var playerCircle = { color: 'green',
                      classification: 'player' };
@@ -93,6 +93,24 @@ var generateEnemyCircleData = function(numEnemies){
   return data;
 };
 
+var checkCollision = function(d){
+  var playerData = d3.select(".player").data()[0];
+  var radiusSum = dimensions.circleRadius * 2;
+
+  var xDiff = d.x_axis - playerData.x_axis;
+  var yDiff = d.y_axis - playerData.y_axis;
+  var separation = Math.sqrt( Math.pow(xDiff,2) + Math.pow(yDiff,2) );
+
+  if(separation < radiusSum){
+    scores[2]++;
+    resetScore();
+  }
+};
+
+var resetScore = function(){
+ scores[1] = 0;
+};
+
 /* ****************
  * EVENT HANDLERS *
  * ****************/
@@ -106,13 +124,29 @@ var drag = d3.behavior.drag().on('drag', function(){
   if(mouse[1] <= dimensions.circleRadius) { mouse[1] = dimensions.circleRadius; }
 
   // mouse is at the right or bottom
-  if(mouse[0] >= dimensions.width - dimensions.circleRadius) { mouse[0] = dimensions.width - dimensions.circleRadius; }
-  if(mouse[1] >= dimensions.height - dimensions.circleRadius) { mouse[1] = dimensions.height - dimensions.circleRadius; }
+  if(mouse[0] >= dimensions.width - dimensions.circleRadius) {
+    mouse[0] = dimensions.width - dimensions.circleRadius; 
+  }
+  if(mouse[1] >= dimensions.height - dimensions.circleRadius) { 
+    mouse[1] = dimensions.height - dimensions.circleRadius; 
+  }
+
+  // update player data
+  var circle_data = [{
+    "x_axis": mouse[0],
+    "y_axis": mouse[1],
+    "radius": dimensions.circleRadius,
+    "color": playerCircle.color,
+    "classification": playerCircle.classification
+  }];
 
   //  move the player
-  d3.select('.player')
-    .attr("cx", mouse[0])
-    .attr('cy', mouse[1]);
+  d3.select(".player")
+    .data(circle_data)
+    .attr("cx", function(d){ return d.x_axis; })
+    .attr('cy', function(d){ return d.y_axis; });
+
+    
 });
 
 /* **************
@@ -137,6 +171,12 @@ var moveInterval = setInterval(function(){
   d3.selectAll('.enemy')
     .data(circle_data)
     .transition()
+    .tween('collision', function(d, i){
+       return function() {
+         checkCollision(d);
+         //TODO: check for a collision
+       };
+    })
     .duration(1000)
     .attr("cx", function(d) {
       return d.x_axis;
@@ -152,9 +192,9 @@ var moveInterval = setInterval(function(){
 
 // update the score board every 50 milliseconds
 var scoreInterval = setInterval(function(){
+    
     scores[0] = 0; //TODO update high score
-    scores[1] = 0; //TODO update current score
-    scores[2] = 0; //TODO update number of collisions
+    scores[1]++; //TODO update current score
     
     updateScoreboard();
   }, 50);
