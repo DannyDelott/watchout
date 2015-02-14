@@ -99,6 +99,15 @@ var generateEnemyCircleData = function(numEnemies){
 
 var drag = d3.behavior.drag().on('drag', function(){
   var mouse = d3.mouse(this);
+  console.log(mouse.toString());
+
+  // mouse is at the left or top
+  if(mouse[0] <= 0) { mouse[0] = dimensions.circleRadius; }
+  if(mouse[1] <= 0) { mouse[1] = dimensions.circleRadius; }
+
+  // mouse is at the right or bottom
+  if(mouse[0] > dimensions.width) { mouse[0] = dimensions.width - dimensions.circleRadius; }
+  if(mouse[1] > dimensions.height) { mouse[1] = dimensions.height - dimensions.circleRadius; }
   d3.select('.player').attr("cx", mouse[0])
       .attr('cy', mouse[1]);
 });
