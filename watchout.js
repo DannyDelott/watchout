@@ -97,6 +97,11 @@ var generateEnemyCircleData = function(numEnemies){
  * EVENT HANDLERS *
  * ****************/
 
+var drag = d3.behavior.drag().on('drag', function(){
+  var mouse = d3.mouse(this);
+  d3.select('.player').attr("cx", mouse[0])
+      .attr('cy', mouse[1]);
+});
 
 /* **************
  * DEFAULT CODE *
@@ -110,6 +115,7 @@ for(var i = 0; i < enemyCircle.numEnemies; i++){
 
 // initializes player on the board
 addCircle(dimensions.width / 2, dimensions.height / 2, playerCircle.color, playerCircle.classification);
+d3.select('.player').call(drag);
 
 // move enemies to a new random location every 2 seconds
 var moveInterval = setInterval(function(){
