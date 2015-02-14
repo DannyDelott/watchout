@@ -17,6 +17,8 @@ var playerCircle = { color: '#FDD835',
 
 var scores = [0, 0, 0];
 
+var prevCollision = false;
+
 /* ******************
  * HELPER FUNCTIONS *
  * ******************/
@@ -94,6 +96,28 @@ var generateEnemyCircleData = function(numEnemies){
   }
 
   return data;
+};
+
+var detectCollision = function(){
+  
+  var collision = false;
+
+  d3.selectAll('.enemy').each(function(){
+    var x = d3.select(this).attr('cx');
+    var y = d3.select(this).attr('cy');
+    if(checkCollision(x,y)){
+      collision = true;
+    }
+  });
+
+  if(collision){
+    scores[1] = 0;
+    if(prevCollision !== collision){
+      scores[2]++; 
+    }
+  }else {}
+
+  prevCollision = collision;
 };
 
 var checkCollision = function(enemyX, enemyY){
@@ -191,27 +215,5 @@ var scoreInterval = setInterval(function(){
   updateScoreboard();
 }, 50);
 
-var prevCollision = false;
-var detectCollision = function(){
-  
-  var collision = false;
-
-  d3.selectAll('.enemy').each(function(){
-    var x = d3.select(this).attr('cx');
-    var y = d3.select(this).attr('cy');
-    if(checkCollision(x,y)){
-      collision = true;
-    }
-  });
-
-  if(collision){
-    scores[1] = 0;
-    if(prevCollision !== collision){
-      scores[2]++; 
-    }
-  }else {}
-
-  prevCollision = collision;
-};
 
 d3.timer(detectCollision);
